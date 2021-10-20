@@ -9,7 +9,7 @@ const router = new Router();
 const ZOOM_OAUTH_BASE_URI = 'https://zoom.us/oauth/';
 
 router.get('/', ({ response }) => {
-  response.body = 'Hello world!';
+  response.body = '<a href="/install">Get Zoom OAuth token</a>';
 });
 
 router.get('/install', ({ response }) => {
@@ -18,8 +18,14 @@ router.get('/install', ({ response }) => {
   );
 });
 
-router.get('/redirect', ({ response }) => {
-  response.body = 'Success!';
+router.get('/redirect', ({ request, response }) => {
+  const code = request.query.code;
+
+  if (code) {
+    response.body = `OAuth token: ${code}`;
+  } else {
+    response.redirect('/');
+  }
 });
 
 app.use(router.routes()).use(router.allowedMethods());
