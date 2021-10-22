@@ -7,14 +7,13 @@ instructions how to create one, see Zoom's
 
 ## Steps to get an OAuth token
 
-1. Supply your `CLIENT_ID` and `REDIRECT_URI` from your OAuth app's credentials
-   to the `.env`. See [.env.example](./env.example) as reference
+1. Supply your `CLIENT_ID`, `CLIENT_SECRET` and `REDIRECT_URI` from your OAuth
+   app's credentials to the `.env`. Make sure `http://localhost:5000` is an
+   allowed redirect in your app. See [.env.example](./env.example) as reference
 
-2. Input a port for the server to listen to in `.env`'s `SERVER_PORT` field
+2. Run `$ yarn start` and go to `http://localhost:5000` on your browser
 
-3. Run `$ yarn start` and go to `http://localhost:{SERVER_PORT}` on your browser
+3. Click on the link and authorize your account
 
-4. Click on the link and authorize your account
-
-5. Take note of the generated OAuth token which will be needed on the main
-   integration
+4. Take note of the `access_token` in the response which will be needed on the
+   main integration
