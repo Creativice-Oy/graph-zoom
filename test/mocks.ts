@@ -1,4 +1,4 @@
-import { ZoomUser } from '../src/types';
+import { ZoomGroup, ZoomUser } from '../src/types';
 
 export function getMockUser(partial?: Partial<ZoomUser>): ZoomUser {
   return {
@@ -18,5 +18,13 @@ export function getMockUser(partial?: Partial<ZoomUser>): ZoomUser {
     phone_number: '',
     status: 'active',
     role_id: '0',
+  };
+}
+
+export function getMockGroup(partial?: Partial<ZoomGroup>): ZoomGroup {
+  return {
+    id: 'sample-id',
+    name: 'group-name',
+    total_members: 420,
   };
 }

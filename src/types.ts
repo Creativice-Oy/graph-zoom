@@ -25,3 +25,16 @@ export type PaginatedUsers = {
   page_size: number;
   users: ZoomUser[];
 };
+
+export type ZoomGroup = {
+  id: string;
+  name: string;
+  total_members: number;
+};
+
+export type PaginatedGroups = {
+  next_page_token: string;
+  page_count: number;
+  page_size: number;
+  groups: ZoomGroup[];
+};

@@ -6,26 +6,26 @@ import {
 import { IntegrationConfig } from '../../config';
 import { createAPIClient } from '../../client';
 import { Entities, IntegrationSteps } from '../constants';
-import { createUserEntity } from './converters';
+import { createGroupEntity } from './converters';
 
-export async function fetchUsers({
+export async function fetchGroups({
   instance,
   jobState,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
   const apiClient = createAPIClient(instance.config);
 
-  await apiClient.iterateUsers(async (user) => {
-    await jobState.addEntity(createUserEntity(user));
+  await apiClient.iterateGroups(async (group) => {
+    await jobState.addEntity(createGroupEntity(group));
   });
 }
 
-export const userSteps: IntegrationStep<IntegrationConfig>[] = [
+export const groupSteps: IntegrationStep<IntegrationConfig>[] = [
   {
-    id: IntegrationSteps.USERS,
-    name: 'Fetch Users',
-    entities: [Entities.USER],
+    id: IntegrationSteps.GROUPS,
+    name: 'Fetch Groups',
+    entities: [Entities.GROUP],
     relationships: [],
     dependsOn: [],
-    executionHandler: fetchUsers,
+    executionHandler: fetchGroups,
   },
 ];
