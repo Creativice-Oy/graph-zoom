@@ -15,8 +15,6 @@ export async function fetchUsers({
   const apiClient = createAPIClient(instance.config);
 
   await apiClient.iterateUsers('users', async (user) => {
-    console.log('user', user);
-
     await jobState.addEntity(createUserEntity(user));
   });
 }
