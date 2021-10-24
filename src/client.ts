@@ -7,8 +7,8 @@ import {
 
 import { IntegrationConfig } from './config';
 import {
+  GroupsResponse,
   PageIteratee,
-  PaginatedGroups,
   PaginatedUsers,
   ZoomGroup,
   ZoomUser,
@@ -86,37 +86,14 @@ export class APIClient {
   public async iterateGroups<T>(
     pageIteratee: PageIteratee<ZoomGroup>,
   ): Promise<void> {
-    let body: PaginatedGroups;
-    let nextPageToken = '';
-    let nextPageCount = 1;
+    const groupsApiRoute = this.withBaseUri('groups');
 
-    do {
-      const endpoint = this.withBaseUri(
-        `groups?page_size=${
-          this.paginateEntitiesPerPage
-        }&page_number=${nextPageCount}${
-          nextPageToken ? `&next_page_token=${nextPageToken}` : ''
-        }`,
-      );
-      const response = await this.request(endpoint, 'GET');
+    const response = await this.request(groupsApiRoute, 'GET');
+    const body: GroupsResponse = await response.json();
 
-      if (!response.ok) {
-        throw new IntegrationProviderAPIError({
-          endpoint: '/groups',
-          status: response.status,
-          statusText: response.statusText,
-        });
-      }
-
-      body = await response.json();
-
-      for (const group of body.groups) {
-        await pageIteratee(group);
-      }
-
-      nextPageToken = body.next_page_token;
-      nextPageCount = body.page_count + 1;
-    } while (nextPageToken);
+    for (const group of body.groups) {
+      await pageIteratee(group);
+    }
   }
 
   public async verifyAuthentication(): Promise<void> {
