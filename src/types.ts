@@ -23,3 +23,12 @@ import { Opaque } from 'type-fest';
 export type AcmeUser = Opaque<any, 'AcmeUser'>;
 export type AcmeGroup = Opaque<any, 'AcmeGroup'>;
 */
+
+export type PageIteratee<T> = (page: T[]) => Promise<void>;
+
+export type PaginatedResource<T> = {
+  next_page_token: string;
+  page_count: number;
+  page_size: number;
+  results: T[];
+};

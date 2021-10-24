@@ -1,54 +1,79 @@
-import http from 'http';
+import fetch, { Response } from 'node-fetch';
 
-import { IntegrationProviderAuthenticationError } from '@jupiterone/integration-sdk-core';
+import {
+  IntegrationProviderAPIError,
+  IntegrationProviderAuthenticationError,
+} from '@jupiterone/integration-sdk-core';
 
 import { IntegrationConfig } from './config';
-import { AcmeUser, AcmeGroup } from './types';
+import { AcmeUser, AcmeGroup, PageIteratee, PaginatedResource } from './types';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
-/**
- * An APIClient maintains authentication state and provides an interface to
- * third party data APIs.
- *
- * It is recommended that integrations wrap provider data APIs to provide a
- * place to handle error responses and implement common patterns for iterating
- * resources.
- */
 export class APIClient {
   constructor(readonly config: IntegrationConfig) {}
 
-  public async verifyAuthentication(): Promise<void> {
-    // TODO make the most light-weight request possible to validate
-    // authentication works with the provided credentials, throw an err if
-    // authentication fails
-    const request = new Promise<void>((resolve, reject) => {
-      http.get(
-        {
-          hostname: 'localhost',
-          port: 443,
-          path: '/api/v1/some/endpoint?limit=1',
-          agent: false,
-          timeout: 10,
-        },
-        (res) => {
-          if (res.statusCode !== 200) {
-            reject(new Error('Provider authentication failed'));
-          } else {
-            resolve();
-          }
-        },
-      );
-    });
+  private readonly paginateEntitiesPerPage = 10;
 
+  private withBaseUri(path: string): string {
+    return `https://api.zoom.us/v2/${path}`;
+  }
+
+  private async request(
+    uri: string,
+    method: 'GET' | 'HEAD' = 'GET',
+  ): Promise<Response> {
+    const response = await fetch(uri, {
+      method,
+      headers: {
+        Authorization: `Bearer ${this.config.zoomAccessToken}`,
+      },
+    });
+    if (!response.ok) {
+      throw new IntegrationProviderAPIError({
+        endpoint: uri,
+        status: response.status,
+        statusText: response.statusText,
+      });
+    }
+    return response;
+  }
+
+  private async paginatedRequest<T>(
+    uri: string,
+    pageIteratee: PageIteratee<T>,
+  ): Promise<void> {
+    let body: PaginatedResource<T>;
+    let nextPageToken = '';
+    let nextPageCount = 1;
+
+    do {
+      const endpoint = this.withBaseUri(
+        `${uri}?page_size=${
+          this.paginateEntitiesPerPage
+        }&page_number=${nextPageCount}${
+          nextPageToken ? `&next_page_token=${nextPageToken}` : ''
+        }`,
+      );
+      const response = await this.request(endpoint, 'GET');
+      body = await response.json();
+
+      await pageIteratee(body.results);
+
+      nextPageToken = body.next_page_token;
+      nextPageCount = body.page_count + 1;
+    } while (nextPageToken);
+  }
+
+  public async verifyAuthentication(): Promise<void> {
+    const usersApiRoute = this.withBaseUri('users/me');
     try {
-      await request;
+      await this.request(usersApiRoute, 'GET');
     } catch (err) {
       throw new IntegrationProviderAuthenticationError({
-        cause: err,
-        endpoint: 'https://localhost/api/v1/some/endpoint?limit=1',
-        status: err.status,
-        statusText: err.statusText,
+        endpoint: usersApiRoute,
+        status: err.code,
+        statusText: err.message,
       });
     }
   }
