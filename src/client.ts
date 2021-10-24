@@ -6,7 +6,13 @@ import {
 } from '@jupiterone/integration-sdk-core';
 
 import { IntegrationConfig } from './config';
-import { PageIteratee, PaginatedUsers, ZoomUser } from './types';
+import {
+  PageIteratee,
+  PaginatedGroups,
+  PaginatedUsers,
+  ZoomGroup,
+  ZoomUser,
+} from './types';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 
@@ -41,7 +47,6 @@ export class APIClient {
 
   // OAuth scope: 'user:read:admin'
   public async iterateUsers<T>(
-    uri: string,
     pageIteratee: PageIteratee<ZoomUser>,
   ): Promise<void> {
     let body: PaginatedUsers;
@@ -50,17 +55,63 @@ export class APIClient {
 
     do {
       const endpoint = this.withBaseUri(
-        `${uri}?page_size=${
+        `users?page_size=${
           this.paginateEntitiesPerPage
         }&page_number=${nextPageCount}${
           nextPageToken ? `&next_page_token=${nextPageToken}` : ''
         }`,
       );
       const response = await this.request(endpoint, 'GET');
+
+      if (!response.ok) {
+        throw new IntegrationProviderAPIError({
+          endpoint: '/users',
+          status: response.status,
+          statusText: response.statusText,
+        });
+      }
+
       body = await response.json();
 
       for (const user of body.users) {
         await pageIteratee(user);
+      }
+
+      nextPageToken = body.next_page_token;
+      nextPageCount = body.page_count + 1;
+    } while (nextPageToken);
+  }
+
+  // OAuth scope: 'group:read:admin'
+  public async iterateGroups<T>(
+    pageIteratee: PageIteratee<ZoomGroup>,
+  ): Promise<void> {
+    let body: PaginatedGroups;
+    let nextPageToken = '';
+    let nextPageCount = 1;
+
+    do {
+      const endpoint = this.withBaseUri(
+        `groups?page_size=${
+          this.paginateEntitiesPerPage
+        }&page_number=${nextPageCount}${
+          nextPageToken ? `&next_page_token=${nextPageToken}` : ''
+        }`,
+      );
+      const response = await this.request(endpoint, 'GET');
+
+      if (!response.ok) {
+        throw new IntegrationProviderAPIError({
+          endpoint: '/groups',
+          status: response.status,
+          statusText: response.statusText,
+        });
+      }
+
+      body = await response.json();
+
+      for (const group of body.groups) {
+        await pageIteratee(group);
       }
 
       nextPageToken = body.next_page_token;

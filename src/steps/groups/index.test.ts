@@ -3,17 +3,17 @@ import {
   Recording,
 } from '@jupiterone/integration-sdk-testing';
 import { IntegrationConfig } from '../../config';
-import { fetchUsers } from '.';
+import { fetchGroups } from '.';
 import { integrationConfig } from '../../../test/config';
 import { setupZoomRecording } from '../../../test/recording';
 
-describe('#fetchUsers', () => {
+describe('#fetchGroups', () => {
   let recording: Recording;
 
   beforeEach(() => {
     recording = setupZoomRecording({
       directory: __dirname,
-      name: 'fetchUsers',
+      name: 'fetchGroups',
     });
   });
 
@@ -26,7 +26,7 @@ describe('#fetchUsers', () => {
       instanceConfig: integrationConfig,
     });
 
-    await fetchUsers(context);
+    await fetchGroups(context);
 
     expect({
       numCollectedEntities: context.jobState.collectedEntities.length,
@@ -35,11 +35,11 @@ describe('#fetchUsers', () => {
     }).toMatchSnapshot();
 
     const users = context.jobState.collectedEntities.filter((e) =>
-      e._class.includes('User'),
+      e._class.includes('Group'),
     );
     expect(users.length).toBeGreaterThan(0);
     expect(users).toMatchGraphObjectSchema({
-      _class: ['User'],
+      _class: ['Group'],
       schema: {
         additionalProperties: false,
         properties: {
@@ -47,24 +47,10 @@ describe('#fetchUsers', () => {
             type: 'array',
             items: { type: 'object' },
           },
-          _type: { const: 'zoom_user' },
+          _type: { const: 'zoom_group' },
+          id: { type: 'string' },
           name: { type: 'string' },
-          username: { type: 'string' },
-          firstName: { type: 'string' },
-          lastName: { type: 'string' },
-          email: { type: 'string' },
-          type: { type: 'number' },
-          pmi: { type: 'number' },
-          timezone: { type: 'string' },
-          verified: { type: 'number' },
-          createdAt: { type: 'string' },
-          lastLoginTime: { type: 'string' },
-          lastClientVersion: { type: 'string' },
-          picUrl: { type: 'string' },
-          language: { type: 'string' },
-          phoneNumber: { type: 'string' },
-          status: { type: 'string' },
-          roleId: { type: 'string' },
+          totalMembers: { type: 'number' },
         },
       },
     });

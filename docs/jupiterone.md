@@ -98,6 +98,7 @@ The following entities are created:
 
 | Resources | Entity `_type` | Entity `_class` |
 | --------- | -------------- | --------------- |
+| Group     | `zoom_group`   | `Group`         |
 | User      | `zoom_user`    | `User`          |
 
 <!--
