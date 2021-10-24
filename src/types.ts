@@ -32,9 +32,7 @@ export type ZoomGroup = {
   total_members: number;
 };
 
-export type PaginatedGroups = {
-  next_page_token: string;
-  page_count: number;
-  page_size: number;
+export type GroupsResponse = {
+  total_records: number;
   groups: ZoomGroup[];
 };
