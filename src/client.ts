@@ -39,6 +39,7 @@ export class APIClient {
     return response;
   }
 
+  // OAuth scope: 'user:read:admin'
   public async iterateUsers<T>(
     uri: string,
     pageIteratee: PageIteratee<ZoomUser>,
