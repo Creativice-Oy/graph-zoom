@@ -1,34 +1,27 @@
-// Providers often supply types with their API libraries.
+export type PageIteratee<T> = (page: T) => Promise<void>;
 
-export interface AcmeUser {
+export type ZoomUser = {
   id: string;
-  name: string;
-}
+  first_name: string;
+  last_name: string;
+  email: string;
+  type: number;
+  pmi: number;
+  timezone: string;
+  verified: number;
+  created_at: string;
+  last_login_time: string;
+  last_client_version: string;
+  pic_url: string;
+  language: string;
+  phone_number: string;
+  status: string;
+  role_id: string;
+};
 
-export interface AcmeGroup {
-  id: string;
-  name: string;
-  users?: Pick<AcmeUser, 'id'>[];
-}
-
-// Those can be useful to a degree, but often they're just full of optional
-// values. Understanding the response data may be more reliably accomplished by
-// reviewing the API response recordings produced by testing the wrapper client
-// (./client.ts). However, when there are no types provided, it is necessary to define
-// opaque types for each resource, to communicate the records that are expected
-// to come from an endpoint and are provided to iterating functions.
-
-/*
-import { Opaque } from 'type-fest';
-export type AcmeUser = Opaque<any, 'AcmeUser'>;
-export type AcmeGroup = Opaque<any, 'AcmeGroup'>;
-*/
-
-export type PageIteratee<T> = (page: T[]) => Promise<void>;
-
-export type PaginatedResource<T> = {
+export type PaginatedUsers = {
   next_page_token: string;
   page_count: number;
   page_size: number;
-  results: T[];
+  users: ZoomUser[];
 };
