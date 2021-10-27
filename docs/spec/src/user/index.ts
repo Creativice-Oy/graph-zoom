@@ -4,7 +4,7 @@ import { IntegrationConfig } from '../../../../src/config';
 export const userSpec: StepSpec<IntegrationConfig>[] = [
   {
     /**
-     * ENDPOINT: https://api.zoom.us/v2/user
+     * ENDPOINT: https://api.zoom.us/v2/users
      * PATTERN: Fetch Entities
      */
     id: 'fetch-users',
