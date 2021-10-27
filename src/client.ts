@@ -9,8 +9,10 @@ import { IntegrationConfig } from './config';
 import {
   GroupsResponse,
   PageIteratee,
+  PaginatedUserInGroupsResponse,
   PaginatedUsers,
   ZoomGroup,
+  ZoomMember,
   ZoomUser,
 } from './types';
 
@@ -46,7 +48,7 @@ export class APIClient {
   }
 
   // OAuth scope: 'user:read:admin'
-  public async iterateUsers<T>(
+  public async iterateUsers(
     pageIteratee: PageIteratee<ZoomUser>,
   ): Promise<void> {
     let body: PaginatedUsers;
@@ -83,7 +85,7 @@ export class APIClient {
   }
 
   // OAuth scope: 'group:read:admin'
-  public async iterateGroups<T>(
+  public async iterateGroups(
     pageIteratee: PageIteratee<ZoomGroup>,
   ): Promise<void> {
     const groupsApiRoute = this.withBaseUri('groups');
@@ -94,6 +96,44 @@ export class APIClient {
     for (const group of body.groups) {
       await pageIteratee(group);
     }
+  }
+
+  // OAuth scope: 'group:read:admins'
+  public async iterateUsersInGroup(
+    groupId: string,
+    pageIteratee: PageIteratee<ZoomMember>,
+  ): Promise<void> {
+    let body: PaginatedUserInGroupsResponse;
+    let nextPageToken = '';
+    let nextPageCount = 1;
+
+    do {
+      const endpoint = this.withBaseUri(
+        `/groups/${groupId}/members?page_size=${
+          this.paginateEntitiesPerPage
+        }&page_number=${nextPageCount}${
+          nextPageToken ? `&next_page_token=${nextPageToken}` : ''
+        }`,
+      );
+      const response = await this.request(endpoint, 'GET');
+
+      if (!response.ok) {
+        throw new IntegrationProviderAPIError({
+          endpoint: '/groups/{groupId}/members',
+          status: response.status,
+          statusText: response.statusText,
+        });
+      }
+
+      body = await response.json();
+
+      for (const member of body.members) {
+        await pageIteratee(member);
+      }
+
+      nextPageToken = body.next_page_token;
+      nextPageCount = body.page_count + 1;
+    } while (nextPageToken);
   }
 
   public async verifyAuthentication(): Promise<void> {
