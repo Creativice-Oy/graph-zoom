@@ -18,6 +18,7 @@ export function getMockUser(partial?: Partial<ZoomUser>): ZoomUser {
     phone_number: '',
     status: 'active',
     role_id: '0',
+    ...partial,
   };
 }
 
@@ -26,5 +27,6 @@ export function getMockGroup(partial?: Partial<ZoomGroup>): ZoomGroup {
     id: 'sample-id',
     name: 'group-name',
     total_members: 420,
+    ...partial,
   };
 }
