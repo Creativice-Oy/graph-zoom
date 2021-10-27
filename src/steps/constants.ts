@@ -1,8 +1,13 @@
-import { StepEntityMetadata } from '@jupiterone/integration-sdk-core';
+import {
+  RelationshipClass,
+  StepEntityMetadata,
+  StepRelationshipMetadata,
+} from '@jupiterone/integration-sdk-core';
 
 export enum IntegrationSteps {
   USERS = 'fetch-users',
   GROUPS = 'fetch-groups',
+  BUILD_USER_AND_GROUP_RELATIONSHIP = 'build-user-and-group-relationship',
 }
 
 export const Entities: Record<'USER' | 'GROUP', StepEntityMetadata> = {
@@ -15,5 +20,17 @@ export const Entities: Record<'USER' | 'GROUP', StepEntityMetadata> = {
     resourceName: 'Group',
     _type: 'zoom_group',
     _class: 'Group',
+  },
+};
+
+export const Relationships: Record<
+  'GROUP_HAS_USER',
+  StepRelationshipMetadata
+> = {
+  GROUP_HAS_USER: {
+    _type: 'zoom_group_has_zoom_user',
+    _class: RelationshipClass.HAS,
+    sourceType: Entities.GROUP._type,
+    targetType: Entities.USER._type,
   },
 };

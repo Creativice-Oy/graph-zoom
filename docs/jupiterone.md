@@ -101,6 +101,14 @@ The following entities are created:
 | Group     | `zoom_group`   | `Group`         |
 | User      | `zoom_user`    | `User`          |
 
+### Relationships
+
+The following relationships are created:
+
+| Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
+| --------------------- | --------------------- | --------------------- |
+| `zoom_group`          | **HAS**               | `zoom_user`           |
+
 <!--
 ********************************************************************************
 END OF GENERATED DOCUMENTATION AFTER BELOW MARKER
