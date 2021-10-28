@@ -11,8 +11,10 @@ import {
   PageIteratee,
   PaginatedUserInGroupsResponse,
   PaginatedUsers,
+  RolesResponse,
   ZoomGroup,
   ZoomMember,
+  ZoomRole,
   ZoomUser,
 } from './types';
 
@@ -122,6 +124,20 @@ export class APIClient {
 
       pageNumber = body.page_count + 1;
     } while (pageNumber <= body.page_count);
+  }
+
+  // OAuth scope: 'role:read:admin'
+  public async iterateRoles(
+    pageIteratee: PageIteratee<ZoomRole>,
+  ): Promise<void> {
+    const rolesApiRoute = this.withBaseUri('roles');
+
+    const response = await this.request(rolesApiRoute, 'GET');
+    const body: RolesResponse = await response.json();
+
+    for (const role of body.roles) {
+      await pageIteratee(role);
+    }
   }
 
   public async verifyAuthentication(): Promise<void> {
