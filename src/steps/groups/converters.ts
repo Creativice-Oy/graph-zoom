@@ -11,8 +11,8 @@ export function createGroupEntity(data: ZoomGroup) {
     entityData: {
       source: data,
       assign: {
-        _class: Entities.USER._class,
-        _type: Entities.USER._type,
+        _class: Entities.GROUP._class,
+        _type: Entities.GROUP._type,
         _key: getGroupKey(data.id),
         displayName: data.name,
         totalMembers: data.total_members,

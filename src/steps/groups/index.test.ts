@@ -86,6 +86,7 @@ describe('#buildUserAndGroupsRelationship', () => {
       numCollectedEntities: context.jobState.collectedEntities.length,
       collectedEntities: context.jobState.collectedEntities,
       encounteredTypes: context.jobState.encounteredTypes,
+      collectedRelationships: context.jobState.collectedRelationships,
     }).toMatchSnapshot();
 
     const users = context.jobState.collectedEntities.filter((e) =>

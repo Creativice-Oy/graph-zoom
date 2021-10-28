@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#buildUserAndGroupsRelationship should build group and user relationship 1`] = `
+Object {
+  "collectedEntities": Array [
+    Object {
+      "_class": Array [
+        "User",
+      ],
+      "_key": "zoom_user:H9Yx0-O8QUCXVIseYAsjaA",
+      "_rawData": Array [
+        Object {
+          "name": "default",
+          "rawData": Object {
+            "created_at": "2021-10-27T00:00:49Z",
+            "email": "development@jupiterone.dev",
+            "first_name": "JupiterOne",
+            "group_ids": Array [
+              "ppUAdwEBRFCdRE0mfLttog",
+            ],
+            "id": "H9Yx0-O8QUCXVIseYAsjaA",
+            "language": "",
+            "last_login_time": "2021-10-28T03:29:30Z",
+            "last_name": "Development",
+            "phone_number": "",
+            "pmi": 4440405982,
+            "role_id": "0",
+            "status": "active",
+            "timezone": "America/New_York",
+            "type": 2,
+            "verified": 1,
+          },
+        },
+      ],
+      "_type": "zoom_user",
+      "active": true,
+      "createdAt": "2021-10-27T00:00:49Z",
+      "createdOn": undefined,
+      "displayName": "JupiterOne Development",
+      "email": "development@jupiterone.dev",
+      "firstName": "JupiterOne",
+      "id": "H9Yx0-O8QUCXVIseYAsjaA",
+      "language": "",
+      "lastClientVersion": undefined,
+      "lastLoginTime": "2021-10-28T03:29:30Z",
+      "lastName": "Development",
+      "name": "JupiterOne Development",
+      "phoneNumber": "",
+      "picUrl": undefined,
+      "pmi": 4440405982,
+      "roleId": "0",
+      "status": "active",
+      "timezone": "America/New_York",
+      "type": 2,
+      "username": "development@jupiterone.dev",
+      "verified": 1,
+    },
+    Object {
+      "_class": Array [
+        "Group",
+      ],
+      "_key": "zoom_group:ppUAdwEBRFCdRE0mfLttog",
+      "_rawData": Array [
+        Object {
+          "name": "default",
+          "rawData": Object {
+            "directory_privacy": 2,
+            "id": "ppUAdwEBRFCdRE0mfLttog",
+            "in_directory": false,
+            "name": "Test Group",
+            "total_members": 1,
+          },
+        },
+      ],
+      "_type": "zoom_group",
+      "createdOn": undefined,
+      "displayName": "Test Group",
+      "id": "ppUAdwEBRFCdRE0mfLttog",
+      "name": "Test Group",
+      "totalMembers": 1,
+    },
+  ],
+  "collectedRelationships": Array [
+    Object {
+      "_class": "HAS",
+      "_fromEntityKey": "zoom_group:ppUAdwEBRFCdRE0mfLttog",
+      "_key": "zoom_group:ppUAdwEBRFCdRE0mfLttog|has|zoom_user:H9Yx0-O8QUCXVIseYAsjaA",
+      "_toEntityKey": "zoom_user:H9Yx0-O8QUCXVIseYAsjaA",
+      "_type": "zoom_group_has_user",
+      "displayName": "HAS",
+    },
+  ],
+  "encounteredTypes": Array [
+    "zoom_user",
+    "zoom_group",
+    "zoom_group_has_user",
+  ],
+  "numCollectedEntities": 2,
+}
+`;
+
+exports[`#fetchGroups should collect data 1`] = `
+Object {
+  "collectedEntities": Array [
+    Object {
+      "_class": Array [
+        "Group",
+      ],
+      "_key": "zoom_group:ppUAdwEBRFCdRE0mfLttog",
+      "_rawData": Array [
+        Object {
+          "name": "default",
+          "rawData": Object {
+            "directory_privacy": 2,
+            "id": "ppUAdwEBRFCdRE0mfLttog",
+            "in_directory": false,
+            "name": "Test Group",
+            "total_members": 1,
+          },
+        },
+      ],
+      "_type": "zoom_group",
+      "createdOn": undefined,
+      "displayName": "Test Group",
+      "id": "ppUAdwEBRFCdRE0mfLttog",
+      "name": "Test Group",
+      "totalMembers": 1,
+    },
+  ],
+  "encounteredTypes": Array [
+    "zoom_group",
+  ],
+  "numCollectedEntities": 1,
+}
+`;
