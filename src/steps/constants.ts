@@ -8,9 +8,10 @@ export enum IntegrationSteps {
   USERS = 'fetch-users',
   GROUPS = 'fetch-groups',
   BUILD_USER_AND_GROUP_RELATIONSHIP = 'build-user-and-group-relationship',
+  ROLES = 'fetch-roles',
 }
 
-export const Entities: Record<'USER' | 'GROUP', StepEntityMetadata> = {
+export const Entities: Record<'USER' | 'GROUP' | 'ROLE', StepEntityMetadata> = {
   USER: {
     resourceName: 'User',
     _type: 'zoom_user',
@@ -20,6 +21,11 @@ export const Entities: Record<'USER' | 'GROUP', StepEntityMetadata> = {
     resourceName: 'Group',
     _type: 'zoom_group',
     _class: 'Group',
+  },
+  ROLE: {
+    resourceName: 'Role',
+    _type: 'zoom_role',
+    _class: 'AccessRole',
   },
 };
 

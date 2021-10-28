@@ -1,4 +1,4 @@
-import { ZoomGroup, ZoomUser } from '../src/types';
+import { ZoomGroup, ZoomRole, ZoomUser } from '../src/types';
 
 export function getMockUser(partial?: Partial<ZoomUser>): ZoomUser {
   return {
@@ -30,6 +30,16 @@ export function getMockGroup(partial?: Partial<ZoomGroup>): ZoomGroup {
     id: 'sample-id',
     name: 'group-name',
     total_members: 420,
+    ...partial,
+  };
+}
+
+export function getMockRole(partial?: Partial<ZoomRole>): ZoomRole {
+  return {
+    id: 'sample-id',
+    name: 'group-name',
+    total_members: 420,
+    description: 'sample-description',
     ...partial,
   };
 }
