@@ -28,14 +28,26 @@ export type ZoomGroup = {
   total_members: number;
 };
 
+export type GroupsResponse = {
+  total_records: number;
+  groups: ZoomGroup[];
+};
+
 export type ZoomMember = Pick<
   ZoomUser,
   'id' | 'first_name' | 'last_name' | 'email' | 'type'
 >;
 
-export type GroupsResponse = {
+export type ZoomRole = {
+  id: string;
+  name: string;
+  description: string;
+  total_members: number;
+};
+
+export type RolesResponse = {
   total_records: number;
-  groups: ZoomGroup[];
+  roles: ZoomRole[];
 };
 
 type PaginationData = {

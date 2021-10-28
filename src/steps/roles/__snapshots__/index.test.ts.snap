@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`#fetchRoles should collect data 1`] = `
+Object {
+  "collectedEntities": Array [
+    Object {
+      "_class": Array [
+        "AccessRole",
+      ],
+      "_key": "zoom_role:0",
+      "_rawData": Array [
+        Object {
+          "name": "default",
+          "rawData": Object {
+            "description": "Account owner has full privileges to access and manage a Zoom account.",
+            "id": "0",
+            "name": "Owner",
+            "total_members": 1,
+          },
+        },
+      ],
+      "_type": "zoom_role",
+      "createdOn": undefined,
+      "description": "Account owner has full privileges to access and manage a Zoom account.",
+      "displayName": "Owner",
+      "id": "0",
+      "name": "Owner",
+      "totalMembers": 1,
+    },
+    Object {
+      "_class": Array [
+        "AccessRole",
+      ],
+      "_key": "zoom_role:1",
+      "_rawData": Array [
+        Object {
+          "name": "default",
+          "rawData": Object {
+            "description": "Admins have wide range privileges to access and manage a Zoom account.",
+            "id": "1",
+            "name": "Admin",
+            "total_members": 0,
+          },
+        },
+      ],
+      "_type": "zoom_role",
+      "createdOn": undefined,
+      "description": "Admins have wide range privileges to access and manage a Zoom account.",
+      "displayName": "Admin",
+      "id": "1",
+      "name": "Admin",
+      "totalMembers": 0,
+    },
+    Object {
+      "_class": Array [
+        "AccessRole",
+      ],
+      "_key": "zoom_role:2",
+      "_rawData": Array [
+        Object {
+          "name": "default",
+          "rawData": Object {
+            "description": "Members have access to basic Zoom video meeting functions but no account management privileges.",
+            "id": "2",
+            "name": "Member",
+            "total_members": 1,
+          },
+        },
+      ],
+      "_type": "zoom_role",
+      "createdOn": undefined,
+      "description": "Members have access to basic Zoom video meeting functions but no account management privileges.",
+      "displayName": "Member",
+      "id": "2",
+      "name": "Member",
+      "totalMembers": 1,
+    },
+  ],
+  "encounteredTypes": Array [
+    "zoom_role",
+  ],
+  "numCollectedEntities": 3,
+}
+`;
