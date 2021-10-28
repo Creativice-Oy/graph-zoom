@@ -3,7 +3,7 @@
 exports[`#createUserEntity should convert to entity 1`] = `
 Object {
   "_class": Array [
-    "User",
+    "Group",
   ],
   "_key": "zoom_group:sample-id",
   "_rawData": Array [
@@ -16,7 +16,7 @@ Object {
       },
     },
   ],
-  "_type": "zoom_user",
+  "_type": "zoom_group",
   "createdOn": undefined,
   "displayName": "group-name",
   "id": "sample-id",

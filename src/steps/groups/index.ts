@@ -18,6 +18,7 @@ export async function fetchGroups({
   const apiClient = createAPIClient(instance.config);
 
   await apiClient.iterateGroups(async (group) => {
+    console.log('group', group);
     await jobState.addEntity(createGroupEntity(group));
   });
 }
