@@ -17,6 +17,9 @@ export type ZoomUser = {
   phone_number: string;
   status: string;
   role_id: string;
+  dept: string;
+  group_ids: string[];
+  host_key: string;
 };
 
 export type ZoomGroup = {

@@ -31,6 +31,9 @@ export function createUserEntity(data: ZoomUser) {
         phoneNumber: data.phone_number,
         status: data.status,
         roleId: data.role_id,
+        dept: data.dept,
+        groupIds: data.group_ids,
+        hostKey: data.host_key,
       },
     },
   });
