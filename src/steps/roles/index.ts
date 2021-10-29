@@ -22,26 +22,26 @@ export async function fetchRoles({
   });
 }
 
-export async function buildUserAndGroupsRelationship({
+export async function buildUserAndRolesRelationship({
   instance,
   jobState,
 }: IntegrationStepExecutionContext<IntegrationConfig>) {
   const apiClient = createAPIClient(instance.config);
 
   await jobState.iterateEntities(
-    { _type: Entities.GROUP._type },
-    async (groupEntity) => {
-      const groupId = groupEntity.id;
+    { _type: Entities.ROLE._type },
+    async (roleEntity) => {
+      const roleId = roleEntity.id;
 
-      await apiClient.iterateUsersInGroup(groupId as string, async (user) => {
+      await apiClient.iterateUsersInRole(roleId as string, async (user) => {
         const userEntity = await jobState.findEntity(getUserKey(user.id));
 
         if (userEntity) {
           await jobState.addRelationship(
             createDirectRelationship({
-              _class: RelationshipClass.HAS,
-              from: groupEntity,
-              to: userEntity,
+              _class: RelationshipClass.ASSIGNED,
+              from: userEntity,
+              to: roleEntity,
             }),
           );
         }
@@ -60,11 +60,11 @@ export const roleSteps: IntegrationStep<IntegrationConfig>[] = [
     executionHandler: fetchRoles,
   },
   {
-    id: IntegrationSteps.BUILD_USER_AND_GROUP_RELATIONSHIP,
-    name: 'Build User and Group Relationship',
+    id: IntegrationSteps.BUILD_USER_AND_ROLE_RELATIONSHIP,
+    name: 'Build User and Role Relationship',
     entities: [],
-    relationships: [Relationships.GROUP_HAS_USER],
-    dependsOn: [IntegrationSteps.GROUPS, IntegrationSteps.USERS],
-    executionHandler: buildUserAndGroupsRelationship,
+    relationships: [Relationships.USER_ASSIGNED_ROLE],
+    dependsOn: [IntegrationSteps.ROLES, IntegrationSteps.USERS],
+    executionHandler: buildUserAndRolesRelationship,
   },
 ];
