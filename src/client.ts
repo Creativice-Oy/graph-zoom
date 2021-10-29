@@ -21,7 +21,7 @@ export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
 export class APIClient {
   constructor(readonly config: IntegrationConfig) {}
 
-  private readonly paginateEntitiesPerPage = 10;
+  private readonly paginateEntitiesPerPage = 30;
 
   private withBaseUri(path: string): string {
     return `https://api.zoom.us/v2/${path}`;
@@ -52,16 +52,11 @@ export class APIClient {
     pageIteratee: PageIteratee<ZoomUser>,
   ): Promise<void> {
     let body: PaginatedUsers;
-    let nextPageToken = '';
-    let nextPageCount = 1;
+    let pageNumber = 1;
 
     do {
       const endpoint = this.withBaseUri(
-        `users?page_size=${
-          this.paginateEntitiesPerPage
-        }&page_number=${nextPageCount}${
-          nextPageToken ? `&next_page_token=${nextPageToken}` : ''
-        }`,
+        `users?page_size=${this.paginateEntitiesPerPage}&page_number=${pageNumber}`,
       );
       const response = await this.request(endpoint, 'GET');
 
@@ -79,9 +74,8 @@ export class APIClient {
         await pageIteratee(user);
       }
 
-      nextPageToken = body.next_page_token;
-      nextPageCount = body.page_count + 1;
-    } while (nextPageToken);
+      pageNumber = body.page_number + 1;
+    } while (pageNumber <= body.page_count);
   }
 
   // OAuth scope: 'group:read:admin'
@@ -104,16 +98,11 @@ export class APIClient {
     pageIteratee: PageIteratee<ZoomMember>,
   ): Promise<void> {
     let body: PaginatedUserInGroupsResponse;
-    let nextPageToken = '';
-    let nextPageCount = 1;
+    let pageNumber = 1;
 
     do {
       const endpoint = this.withBaseUri(
-        `/groups/${groupId}/members?page_size=${
-          this.paginateEntitiesPerPage
-        }&page_number=${nextPageCount}${
-          nextPageToken ? `&next_page_token=${nextPageToken}` : ''
-        }`,
+        `/groups/${groupId}/members?page_size=${this.paginateEntitiesPerPage}&page_number=${pageNumber}`,
       );
       const response = await this.request(endpoint, 'GET');
 
@@ -131,9 +120,8 @@ export class APIClient {
         await pageIteratee(member);
       }
 
-      nextPageToken = body.next_page_token;
-      nextPageCount = body.page_count + 1;
-    } while (nextPageToken);
+      pageNumber = body.page_count + 1;
+    } while (pageNumber <= body.page_count);
   }
 
   public async verifyAuthentication(): Promise<void> {
