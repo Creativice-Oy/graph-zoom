@@ -28,7 +28,7 @@ export const Relationships: Record<
   StepRelationshipMetadata
 > = {
   GROUP_HAS_USER: {
-    _type: 'zoom_group_has_zoom_user',
+    _type: 'zoom_group_has_user',
     _class: RelationshipClass.HAS,
     sourceType: Entities.GROUP._type,
     targetType: Entities.USER._type,

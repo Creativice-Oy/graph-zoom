@@ -160,7 +160,7 @@ describe('#buildUserAndGroupsRelationship', () => {
         properties: {
           _class: { const: 'HAS' },
           _type: {
-            const: 'zoom_group_has_zoom_user',
+            const: 'zoom_group_has_user',
           },
         },
       },
