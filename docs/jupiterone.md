@@ -99,6 +99,7 @@ The following entities are created:
 | Resources | Entity `_type` | Entity `_class` |
 | --------- | -------------- | --------------- |
 | Group     | `zoom_group`   | `Group`         |
+| Role      | `zoom_role`    | `AccessRole`    |
 | User      | `zoom_user`    | `User`          |
 
 ### Relationships
@@ -108,6 +109,7 @@ The following relationships are created:
 | Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
 | --------------------- | --------------------- | --------------------- |
 | `zoom_group`          | **HAS**               | `zoom_user`           |
+| `zoom_user`           | **ASSIGNED**          | `zoom_role`           |
 
 <!--
 ********************************************************************************

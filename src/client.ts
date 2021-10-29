@@ -10,11 +10,13 @@ import {
   GroupsResponse,
   PageIteratee,
   PaginatedUserInGroupsResponse,
+  PaginatedUserInRolesResponse,
   PaginatedUsers,
   RolesResponse,
   ZoomGroup,
-  ZoomMember,
+  ZoomGroupMember,
   ZoomRole,
+  ZoomRoleMember,
   ZoomUser,
 } from './types';
 
@@ -97,7 +99,7 @@ export class APIClient {
   // OAuth scope: 'group:read:admins'
   public async iterateUsersInGroup(
     groupId: string,
-    pageIteratee: PageIteratee<ZoomMember>,
+    pageIteratee: PageIteratee<ZoomGroupMember>,
   ): Promise<void> {
     let body: PaginatedUserInGroupsResponse;
     let pageNumber = 1;
@@ -138,6 +140,38 @@ export class APIClient {
     for (const role of body.roles) {
       await pageIteratee(role);
     }
+  }
+
+  // OAuth scope: 'role:read:admin'
+  public async iterateUsersInRole(
+    roleId: string,
+    pageIteratee: PageIteratee<ZoomRoleMember>,
+  ): Promise<void> {
+    let body: PaginatedUserInRolesResponse;
+    let pageNumber = 1;
+
+    do {
+      const endpoint = this.withBaseUri(
+        `/roles/${roleId}/members?page_size=${this.paginateEntitiesPerPage}&page_number=${pageNumber}`,
+      );
+      const response = await this.request(endpoint, 'GET');
+
+      if (!response.ok) {
+        throw new IntegrationProviderAPIError({
+          endpoint: '/roles/{roleId}/members',
+          status: response.status,
+          statusText: response.statusText,
+        });
+      }
+
+      body = await response.json();
+
+      for (const member of body.members) {
+        await pageIteratee(member);
+      }
+
+      pageNumber = body.page_count + 1;
+    } while (pageNumber <= body.page_count);
   }
 
   public async verifyAuthentication(): Promise<void> {

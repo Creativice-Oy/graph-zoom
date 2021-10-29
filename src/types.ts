@@ -33,7 +33,7 @@ export type GroupsResponse = {
   groups: ZoomGroup[];
 };
 
-export type ZoomMember = Pick<
+export type ZoomGroupMember = Pick<
   ZoomUser,
   'id' | 'first_name' | 'last_name' | 'email' | 'type'
 >;
@@ -50,6 +50,11 @@ export type RolesResponse = {
   roles: ZoomRole[];
 };
 
+export type ZoomRoleMember = Pick<
+  ZoomUser,
+  'id' | 'first_name' | 'last_name' | 'email' | 'type'
+> & { department: string };
+
 type PaginationData = {
   next_page_token: string;
   page_count: number;
@@ -64,5 +69,9 @@ export type PaginatedUsers = {
 } & PaginationData;
 
 export type PaginatedUserInGroupsResponse = {
-  members: ZoomMember[];
+  members: ZoomGroupMember[];
+} & PaginationData;
+
+export type PaginatedUserInRolesResponse = {
+  members: ZoomRoleMember[];
 } & PaginationData;
