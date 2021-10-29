@@ -12,4 +12,4 @@ and this project adheres to
 
 - Ingest new entity `zoom_user`
 - Ingest new entity `zoom_group`
-- Build new relationship `zoom_group_has_zoom_user`
+- Build new relationship `zoom_group_has_user`
