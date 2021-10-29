@@ -18,6 +18,9 @@ export function getMockUser(partial?: Partial<ZoomUser>): ZoomUser {
     phone_number: '',
     status: 'active',
     role_id: '0',
+    dept: 'sample-dept',
+    group_ids: ['1', '2'],
+    host_key: 'sample-host-key',
     ...partial,
   };
 }

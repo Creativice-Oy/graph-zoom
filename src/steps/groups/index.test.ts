@@ -120,6 +120,12 @@ describe('#buildUserAndGroupsRelationship', () => {
           phoneNumber: { type: 'string' },
           status: { type: 'string' },
           roleId: { type: 'string' },
+          dept: { type: 'string' },
+          groupIds: {
+            type: 'array',
+            items: { type: 'string' },
+          },
+          hostKey: { type: 'string' },
         },
       },
     });
