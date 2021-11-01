@@ -10,9 +10,13 @@ export enum IntegrationSteps {
   BUILD_USER_AND_GROUP_RELATIONSHIP = 'build-user-and-group-relationship',
   BUILD_USER_AND_ROLE_RELATIONSHIP = 'build-user-and-role-relationship',
   ROLES = 'fetch-roles',
+  USER_SETTINGS = 'fetch-user-settings',
 }
 
-export const Entities: Record<'USER' | 'GROUP' | 'ROLE', StepEntityMetadata> = {
+export const Entities: Record<
+  'USER' | 'GROUP' | 'ROLE' | 'USER_SETTINGS',
+  StepEntityMetadata
+> = {
   USER: {
     resourceName: 'User',
     _type: 'zoom_user',
@@ -28,10 +32,15 @@ export const Entities: Record<'USER' | 'GROUP' | 'ROLE', StepEntityMetadata> = {
     _type: 'zoom_role',
     _class: 'AccessRole',
   },
+  USER_SETTINGS: {
+    resourceName: 'User Settings',
+    _type: 'zoom_user_settings',
+    _class: 'Configuration',
+  },
 };
 
 export const Relationships: Record<
-  'GROUP_HAS_USER' | 'USER_ASSIGNED_ROLE',
+  'GROUP_HAS_USER' | 'USER_ASSIGNED_ROLE' | 'USER_HAS_USER_SETTINGS',
   StepRelationshipMetadata
 > = {
   GROUP_HAS_USER: {
@@ -45,5 +54,11 @@ export const Relationships: Record<
     _class: RelationshipClass.ASSIGNED,
     sourceType: Entities.USER._type,
     targetType: Entities.ROLE._type,
+  },
+  USER_HAS_USER_SETTINGS: {
+    _type: 'zoom_user_has_settings',
+    _class: RelationshipClass.HAS,
+    sourceType: Entities.USER._type,
+    targetType: Entities.USER_SETTINGS._type,
   },
 };

@@ -18,6 +18,7 @@ import {
   ZoomRole,
   ZoomRoleMember,
   ZoomUser,
+  ZoomUserSettings,
 } from './types';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
@@ -172,6 +173,16 @@ export class APIClient {
 
       pageNumber = body.page_count + 1;
     } while (pageNumber <= body.page_count);
+  }
+
+  // OAuth scope: 'user:read:admin'
+  public async getUserSettings(userId: string): Promise<ZoomUserSettings> {
+    const userSettingsApiRoute = this.withBaseUri(`/users/${userId}/settings`);
+
+    const response = await this.request(userSettingsApiRoute, 'GET');
+    const body: ZoomUserSettings = await response.json();
+
+    return body;
   }
 
   public async verifyAuthentication(): Promise<void> {
