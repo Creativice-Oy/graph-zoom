@@ -23,6 +23,7 @@ export async function fetchUserSettings({
       );
 
       if (userSettings) {
+        console.log(userSettings);
         const userSettingsEntity = createUserSettingsEntity(
           userEntity,
           userSettings,
