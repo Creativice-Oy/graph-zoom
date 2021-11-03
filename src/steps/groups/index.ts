@@ -1,5 +1,6 @@
 import {
   createDirectRelationship,
+  Entity,
   IntegrationStep,
   IntegrationStepExecutionContext,
   RelationshipClass,
@@ -7,7 +8,12 @@ import {
 
 import { IntegrationConfig } from '../../config';
 import { createAPIClient } from '../../client';
-import { Entities, IntegrationSteps, Relationships } from '../constants';
+import {
+  ACCOUNT_ENTITY_KEY,
+  Entities,
+  IntegrationSteps,
+  Relationships,
+} from '../constants';
 import { createGroupEntity } from './converters';
 import { getUserKey } from '../users/converters';
 
@@ -50,6 +56,27 @@ export async function buildUserAndGroupsRelationship({
   );
 }
 
+export async function buildAccountAndGroupsRelationship({
+  jobState,
+}: IntegrationStepExecutionContext<IntegrationConfig>) {
+  const accountEntity = (await jobState.getData(ACCOUNT_ENTITY_KEY)) as Entity;
+
+  await jobState.iterateEntities(
+    { _type: Entities.GROUP._type },
+    async (groupEntity) => {
+      if (accountEntity && groupEntity) {
+        await jobState.addRelationship(
+          createDirectRelationship({
+            _class: RelationshipClass.HAS,
+            from: accountEntity,
+            to: groupEntity,
+          }),
+        );
+      }
+    },
+  );
+}
+
 export const groupSteps: IntegrationStep<IntegrationConfig>[] = [
   {
     id: IntegrationSteps.GROUPS,
@@ -66,5 +93,13 @@ export const groupSteps: IntegrationStep<IntegrationConfig>[] = [
     relationships: [Relationships.GROUP_HAS_USER],
     dependsOn: [IntegrationSteps.GROUPS, IntegrationSteps.USERS],
     executionHandler: buildUserAndGroupsRelationship,
+  },
+  {
+    id: IntegrationSteps.BUILD_ACCOUNT_AND_GROUP_RELATIONSHIP,
+    name: 'Build Account and Group Relationship',
+    entities: [],
+    relationships: [Relationships.ACCOUNT_HAS_GROUP],
+    dependsOn: [IntegrationSteps.GROUPS, IntegrationSteps.ACCOUNT],
+    executionHandler: buildAccountAndGroupsRelationship,
   },
 ];

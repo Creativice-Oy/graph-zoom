@@ -3,11 +3,16 @@ import {
   Recording,
 } from '@jupiterone/integration-sdk-testing';
 import { IntegrationConfig } from '../../config';
-import { buildUserAndGroupsRelationship, fetchGroups } from '.';
+import {
+  buildUserAndGroupsRelationship,
+  buildAccountAndGroupsRelationship,
+  fetchGroups,
+} from '.';
 import { integrationConfig } from '../../../test/config';
 import { setupZoomRecording } from '../../../test/recording';
 import { fetchUsers } from '../users';
 import { Relationships } from '../constants';
+import { fetchAccount } from '../account';
 
 describe('#fetchGroups', () => {
   let recording: Recording;
@@ -161,6 +166,95 @@ describe('#buildUserAndGroupsRelationship', () => {
           _class: { const: 'HAS' },
           _type: {
             const: 'zoom_group_has_user',
+          },
+        },
+      },
+    });
+  });
+});
+
+describe('#buildAccountAndGroupsRelationship', () => {
+  let recording: Recording;
+
+  beforeEach(() => {
+    recording = setupZoomRecording({
+      directory: __dirname,
+      name: 'buildAccountAndGroupsRelationship',
+    });
+  });
+
+  afterEach(async () => {
+    await recording.stop();
+  });
+
+  test('should build group and account relationship', async () => {
+    const context = createMockStepExecutionContext<IntegrationConfig>({
+      instanceConfig: integrationConfig,
+    });
+
+    await fetchAccount(context);
+    await fetchGroups(context);
+    await buildAccountAndGroupsRelationship(context);
+
+    expect({
+      numCollectedEntities: context.jobState.collectedEntities.length,
+      collectedEntities: context.jobState.collectedEntities,
+      encounteredTypes: context.jobState.encounteredTypes,
+      collectedRelationships: context.jobState.collectedRelationships,
+    }).toMatchSnapshot();
+
+    const account = context.jobState.collectedEntities.filter((e) =>
+      e._type.includes('zoom_account'),
+    );
+    expect(account.length).toBe(1);
+    expect(account).toMatchGraphObjectSchema({
+      _class: ['User'],
+      schema: {
+        additionalProperties: false,
+        properties: {
+          _rawData: {
+            type: 'array',
+            items: { type: 'object' },
+          },
+          _type: { const: 'zoom_account' },
+          name: { type: 'string' },
+          username: { type: 'string' },
+          email: { type: 'string' },
+        },
+      },
+    });
+
+    const groups = context.jobState.collectedEntities.filter((e) =>
+      e._type.includes('zoom_group'),
+    );
+    expect(groups.length).toBeGreaterThan(0);
+    expect(groups).toMatchGraphObjectSchema({
+      _class: ['Group'],
+      schema: {
+        additionalProperties: false,
+        properties: {
+          _rawData: {
+            type: 'array',
+            items: { type: 'object' },
+          },
+          _type: { const: 'zoom_group' },
+          id: { type: 'string' },
+          name: { type: 'string' },
+          totalMembers: { type: 'number' },
+        },
+      },
+    });
+
+    expect(
+      context.jobState.collectedRelationships.filter(
+        (e) => e._type === Relationships.ACCOUNT_HAS_GROUP._type,
+      ),
+    ).toMatchDirectRelationshipSchema({
+      schema: {
+        properties: {
+          _class: { const: 'HAS' },
+          _type: {
+            const: 'zoom_account_has_group',
           },
         },
       },

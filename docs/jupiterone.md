@@ -110,6 +110,9 @@ The following relationships are created:
 
 | Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
 | --------------------- | --------------------- | --------------------- |
+| `zoom_account`        | **HAS**               | `zoom_group`          |
+| `zoom_account`        | **HAS**               | `zoom_role`           |
+| `zoom_account`        | **HAS**               | `zoom_user`           |
 | `zoom_group`          | **HAS**               | `zoom_user`           |
 | `zoom_user`           | **ASSIGNED**          | `zoom_role`           |
 | `zoom_user`           | **HAS**               | `zoom_user_settings`  |

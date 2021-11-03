@@ -1,5 +1,6 @@
 import {
   createDirectRelationship,
+  Entity,
   IntegrationStep,
   IntegrationStepExecutionContext,
   RelationshipClass,
@@ -7,7 +8,12 @@ import {
 
 import { IntegrationConfig } from '../../config';
 import { createAPIClient } from '../../client';
-import { Entities, IntegrationSteps, Relationships } from '../constants';
+import {
+  ACCOUNT_ENTITY_KEY,
+  Entities,
+  IntegrationSteps,
+  Relationships,
+} from '../constants';
 import { createRoleEntity } from './converters';
 import { getUserKey } from '../users/converters';
 
@@ -50,6 +56,27 @@ export async function buildUserAndRolesRelationship({
   );
 }
 
+export async function buildAccountAndRolesRelationship({
+  jobState,
+}: IntegrationStepExecutionContext<IntegrationConfig>) {
+  const accountEntity = (await jobState.getData(ACCOUNT_ENTITY_KEY)) as Entity;
+
+  await jobState.iterateEntities(
+    { _type: Entities.ROLE._type },
+    async (roleEntity) => {
+      if (accountEntity && roleEntity) {
+        await jobState.addRelationship(
+          createDirectRelationship({
+            _class: RelationshipClass.HAS,
+            from: accountEntity,
+            to: roleEntity,
+          }),
+        );
+      }
+    },
+  );
+}
+
 export const roleSteps: IntegrationStep<IntegrationConfig>[] = [
   {
     id: IntegrationSteps.ROLES,
@@ -66,5 +93,13 @@ export const roleSteps: IntegrationStep<IntegrationConfig>[] = [
     relationships: [Relationships.USER_ASSIGNED_ROLE],
     dependsOn: [IntegrationSteps.ROLES, IntegrationSteps.USERS],
     executionHandler: buildUserAndRolesRelationship,
+  },
+  {
+    id: IntegrationSteps.BUILD_ACCOUNT_AND_ROLE_RELATIONSHIP,
+    name: 'Build Account and Role Relationship',
+    entities: [],
+    relationships: [Relationships.ACCOUNT_HAS_ROLE],
+    dependsOn: [IntegrationSteps.ROLES, IntegrationSteps.ACCOUNT],
+    executionHandler: buildAccountAndRolesRelationship,
   },
 ];

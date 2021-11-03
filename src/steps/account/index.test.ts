@@ -34,11 +34,11 @@ describe('#fetchAccount', () => {
       encounteredTypes: context.jobState.encounteredTypes,
     }).toMatchSnapshot();
 
-    const users = context.jobState.collectedEntities.filter((e) =>
+    const account = context.jobState.collectedEntities.filter((e) =>
       e._type.includes('zoom_account'),
     );
-    expect(users.length).toBeGreaterThan(0);
-    expect(users).toMatchGraphObjectSchema({
+    expect(account.length).toBe(1);
+    expect(account).toMatchGraphObjectSchema({
       _class: ['User'],
       schema: {
         additionalProperties: false,

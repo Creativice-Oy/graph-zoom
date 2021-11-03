@@ -4,8 +4,13 @@ import {
   StepRelationshipMetadata,
 } from '@jupiterone/integration-sdk-core';
 
+export const ACCOUNT_ENTITY_KEY = 'entity:account';
+
 export enum IntegrationSteps {
   ACCOUNT = 'fetch-account',
+  BUILD_ACCOUNT_AND_GROUP_RELATIONSHIP = 'build-account-and-group-relationship',
+  BUILD_ACCOUNT_AND_USER_RELATIONSHIP = 'build-account-and-user-relationship',
+  BUILD_ACCOUNT_AND_ROLE_RELATIONSHIP = 'build-account-and-role-relationship',
   USERS = 'fetch-users',
   GROUPS = 'fetch-groups',
   BUILD_USER_AND_GROUP_RELATIONSHIP = 'build-user-and-group-relationship',
@@ -46,9 +51,32 @@ export const Entities: Record<
 };
 
 export const Relationships: Record<
-  'GROUP_HAS_USER' | 'USER_ASSIGNED_ROLE' | 'USER_HAS_USER_SETTINGS',
+  | 'ACCOUNT_HAS_GROUP'
+  | 'ACCOUNT_HAS_USER'
+  | 'ACCOUNT_HAS_ROLE'
+  | 'GROUP_HAS_USER'
+  | 'USER_ASSIGNED_ROLE'
+  | 'USER_HAS_USER_SETTINGS',
   StepRelationshipMetadata
 > = {
+  ACCOUNT_HAS_GROUP: {
+    _type: 'zoom_account_has_group',
+    _class: RelationshipClass.HAS,
+    sourceType: Entities.ACCOUNT._type,
+    targetType: Entities.GROUP._type,
+  },
+  ACCOUNT_HAS_USER: {
+    _type: 'zoom_account_has_user',
+    _class: RelationshipClass.HAS,
+    sourceType: Entities.ACCOUNT._type,
+    targetType: Entities.USER._type,
+  },
+  ACCOUNT_HAS_ROLE: {
+    _type: 'zoom_account_has_role',
+    _class: RelationshipClass.HAS,
+    sourceType: Entities.ACCOUNT._type,
+    targetType: Entities.ROLE._type,
+  },
   GROUP_HAS_USER: {
     _type: 'zoom_group_has_user',
     _class: RelationshipClass.HAS,
