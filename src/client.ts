@@ -56,6 +56,13 @@ export class APIClient {
   }
 
   // OAuth scope: 'user:read:admin'
+  public async getCurrentUser(): Promise<ZoomUser> {
+    const endpoint = this.withBaseUri(`users/me`);
+    const response = await this.request(endpoint, 'GET');
+    return (await response.json()) as ZoomUser;
+  }
+
+  // OAuth scope: 'user:read:admin'
   public async iterateUsers(
     pageIteratee: PageIteratee<ZoomUser>,
   ): Promise<void> {

@@ -98,6 +98,7 @@ The following entities are created:
 
 | Resources     | Entity `_type`       | Entity `_class` |
 | ------------- | -------------------- | --------------- |
+| Account       | `zoom_account`       | `User`          |
 | Group         | `zoom_group`         | `Group`         |
 | Role          | `zoom_role`          | `AccessRole`    |
 | User          | `zoom_user`          | `User`          |

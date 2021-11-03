@@ -5,6 +5,7 @@ import {
 } from '@jupiterone/integration-sdk-core';
 
 export enum IntegrationSteps {
+  ACCOUNT = 'fetch-account',
   USERS = 'fetch-users',
   GROUPS = 'fetch-groups',
   BUILD_USER_AND_GROUP_RELATIONSHIP = 'build-user-and-group-relationship',
@@ -14,9 +15,14 @@ export enum IntegrationSteps {
 }
 
 export const Entities: Record<
-  'USER' | 'GROUP' | 'ROLE' | 'USER_SETTINGS',
+  'ACCOUNT' | 'USER' | 'GROUP' | 'ROLE' | 'USER_SETTINGS',
   StepEntityMetadata
 > = {
+  ACCOUNT: {
+    resourceName: 'Account',
+    _type: 'zoom_account',
+    _class: 'User',
+  },
   USER: {
     resourceName: 'User',
     _type: 'zoom_user',
