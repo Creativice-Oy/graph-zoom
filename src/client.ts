@@ -19,6 +19,9 @@ import {
   ZoomRoleMember,
   ZoomUser,
   ZoomUserSettings,
+  ZoomUserSettingsMeetingAuthentication,
+  ZoomUserSettingsMeetingSecurity,
+  ZoomUserSettingsRecordingAuthentication,
 } from './types';
 
 export type ResourceIteratee<T> = (each: T) => Promise<void> | void;
@@ -107,13 +110,13 @@ export class APIClient {
 
     do {
       const endpoint = this.withBaseUri(
-        `/groups/${groupId}/members?page_size=${this.paginateEntitiesPerPage}&page_number=${pageNumber}`,
+        `groups/${groupId}/members?page_size=${this.paginateEntitiesPerPage}&page_number=${pageNumber}`,
       );
       const response = await this.request(endpoint, 'GET');
 
       if (!response.ok) {
         throw new IntegrationProviderAPIError({
-          endpoint: '/groups/{groupId}/members',
+          endpoint: 'groups/{groupId}/members',
           status: response.status,
           statusText: response.statusText,
         });
@@ -153,13 +156,13 @@ export class APIClient {
 
     do {
       const endpoint = this.withBaseUri(
-        `/roles/${roleId}/members?page_size=${this.paginateEntitiesPerPage}&page_number=${pageNumber}`,
+        `roles/${roleId}/members?page_size=${this.paginateEntitiesPerPage}&page_number=${pageNumber}`,
       );
       const response = await this.request(endpoint, 'GET');
 
       if (!response.ok) {
         throw new IntegrationProviderAPIError({
-          endpoint: '/roles/{roleId}/members',
+          endpoint: 'roles/{roleId}/members',
           status: response.status,
           statusText: response.statusText,
         });
@@ -177,10 +180,61 @@ export class APIClient {
 
   // OAuth scope: 'user:read:admin'
   public async getUserSettings(userId: string): Promise<ZoomUserSettings> {
-    const userSettingsApiRoute = this.withBaseUri(`/users/${userId}/settings`);
+    const userSettingsApiRoute = this.withBaseUri(`users/${userId}/settings`);
 
     const response = await this.request(userSettingsApiRoute, 'GET');
     const body: ZoomUserSettings = await response.json();
+
+    return body;
+  }
+
+  // OAuth scope: 'user:read:admin'
+  public async getUserSettingsMeetingAuthentication(
+    userId: string,
+  ): Promise<ZoomUserSettingsMeetingAuthentication> {
+    const userSettingsMeetingAuthenticationApiRoute = this.withBaseUri(
+      `users/${userId}/settings?option=meeting_authentication`,
+    );
+
+    const response = await this.request(
+      userSettingsMeetingAuthenticationApiRoute,
+      'GET',
+    );
+    const body: ZoomUserSettingsMeetingAuthentication = await response.json();
+
+    return body;
+  }
+
+  // OAuth scope: 'user:read:admin'
+  public async getUserSettingsRecordingAuthentication(
+    userId: string,
+  ): Promise<ZoomUserSettingsRecordingAuthentication> {
+    const userSettingsRecordingAuthenticationApiRoute = this.withBaseUri(
+      `users/${userId}/settings?option=recording_authentication`,
+    );
+
+    const response = await this.request(
+      userSettingsRecordingAuthenticationApiRoute,
+      'GET',
+    );
+    const body: ZoomUserSettingsRecordingAuthentication = await response.json();
+
+    return body;
+  }
+
+  // OAuth scope: 'user:read:admin'
+  public async getUserSettingsMeetingSecurity(
+    userId: string,
+  ): Promise<ZoomUserSettingsMeetingSecurity> {
+    const userSettingsMeetingSecurityApiRoute = this.withBaseUri(
+      `users/${userId}/settings?option=meeting_security`,
+    );
+
+    const response = await this.request(
+      userSettingsMeetingSecurityApiRoute,
+      'GET',
+    );
+    const body: ZoomUserSettingsMeetingSecurity = await response.json();
 
     return body;
   }

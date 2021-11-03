@@ -22,11 +22,30 @@ export async function fetchUserSettings({
         userEntity.id as string,
       );
 
-      if (userSettings) {
-        const userSettingsEntity = createUserSettingsEntity(
-          userEntity,
-          userSettings,
-        );
+      const userSettingsMeetingAuthentication = await apiClient.getUserSettingsMeetingAuthentication(
+        userEntity.id as string,
+      );
+
+      const userSettingsRecordingAuthentication = await apiClient.getUserSettingsRecordingAuthentication(
+        userEntity.id as string,
+      );
+
+      const userSettingsMeetingSecurity = await apiClient.getUserSettingsMeetingSecurity(
+        userEntity.id as string,
+      );
+
+      if (
+        userSettings ||
+        userSettingsMeetingAuthentication ||
+        userSettingsRecordingAuthentication ||
+        userSettingsMeetingSecurity
+      ) {
+        const userSettingsEntity = createUserSettingsEntity(userEntity, {
+          ...userSettings,
+          ...userSettingsMeetingAuthentication,
+          ...userSettingsRecordingAuthentication,
+          ...userSettingsMeetingSecurity,
+        });
         await jobState.addEntity(userSettingsEntity);
 
         await jobState.addRelationship(

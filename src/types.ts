@@ -219,6 +219,63 @@ export type ZoomUserSettings = {
   };
 };
 
+export type ZoomUserSettingsMeetingAuthentication = {
+  meeting_authentication: boolean;
+  authentication_options?: {
+    id: string;
+    name: string;
+    type: string;
+    default_option: boolean;
+    visible: boolean;
+    domains: string;
+  }[];
+};
+
+export type ZoomUserSettingsRecordingAuthentication = {
+  recording_authentication: boolean;
+  authentication_options?: {
+    id: string;
+    name: string;
+    type: string;
+    default_option: boolean;
+    visible: boolean;
+    domains: string;
+  }[];
+};
+
+export type ZoomUserSettingsMeetingSecurity = {
+  meeting_security?: {
+    embed_password_in_join_link: boolean;
+    end_to_end_encrypted_meetings: boolean;
+    encryption_type: string;
+    meeting_password: boolean;
+    meeting_password_requirement: {
+      length: number;
+      have_letter: boolean;
+      have_number: boolean;
+      have_special_character: boolean;
+      only_allow_numeric: boolean;
+      have_upper_and_lower_characters: boolean;
+      consecutive_characters_length: number;
+      weak_enhance_detection: boolean;
+    };
+    phone_password: boolean;
+    pmi_password: boolean;
+    require_password_for_scheduled_meeting: boolean;
+    webinar_password: boolean;
+    require_password_for_scheduled_webinar: boolean;
+    waiting_room: boolean;
+    waiting_room_settings: {
+      participants_to_place_in_waiting_room: number;
+      whitelisted_domains_for_waiting_room: string;
+      users_who_can_admit_participants_from_waiting_room: number;
+    };
+    auto_security: boolean;
+    block_user_domain: boolean;
+    block_user_domain_list: string[];
+  };
+};
+
 export type GroupsResponse = {
   total_records: number;
   groups: ZoomGroup[];

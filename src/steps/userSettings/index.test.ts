@@ -280,6 +280,60 @@ describe('#fetchUserSettings', () => {
           audioConferencingTollFreeAndFeeBasedTollCallAllowWebinarAttendeesDial: {
             type: 'boolean',
           },
+          meetingAuthentication: { type: 'boolean' },
+          recordingAuthentication: { type: 'boolean' },
+
+          meetingSecurityEmbedPasswordInJoinLink: { type: 'boolean' },
+          meetingSecurityEndToEndEncryptedMeetings: { type: 'boolean' },
+          meetingSecurityEncryptionType: { type: 'string' },
+          meetingSecurityMeetingPassword: { type: 'boolean' },
+          meetingSecurityMeetingPasswordRequirementLength: { type: 'number' },
+          meetingSecurityMeetingPasswordRequirementHaveLetter: {
+            type: 'boolean',
+          },
+          meetingSecurityMeetingPasswordRequirementHaveNumber: {
+            type: 'boolean',
+          },
+          meetingSecurityMeetingPasswordRequirementHaveSpecialCharacter: {
+            type: 'boolean',
+          },
+          meetingSecurityMeetingPasswordRequirementOnlyAllowNumeric: {
+            type: 'boolean',
+          },
+          meetingSecurityMeetingPasswordRequirementHaveUpperAndLowerCharacters: {
+            type: 'boolean',
+          },
+          meetingSecurityMeetingPasswordRequirementConsecutiveCharactersLength: {
+            type: 'number',
+          },
+          meetingSecurityMeetingPasswordRequirementWeakEnhanceDetection: {
+            type: 'boolean',
+          },
+          meetingSecurityPhonePassword: { type: 'boolean' },
+          meetingSecurityPmiPassword: { type: 'boolean' },
+          meetingSecurityRequirePasswordForScheduledMeeting: {
+            type: 'boolean',
+          },
+          meetingSecurityWebinarPassword: { type: 'boolean' },
+          meetingSecurityRequirePasswordForScheduledWebinar: {
+            type: 'boolean',
+          },
+          meetingSecurityWaitingRoom: { type: 'boolean' },
+          meetingSecurityWaitingRoomSettingsParticipantsToPlaceInWaitingRoom: {
+            type: 'number',
+          },
+          meetingSecurityWaitingRoomSettingsWhitelistedDomainsForWaitingRoom: {
+            type: 'string',
+          },
+          meetingSecurityWaitingRoomSettingsUsersWhoCanAdmitParticipantsFromWaitingRoom: {
+            type: 'number',
+          },
+          meetingSecurityAutoSecurity: { type: 'boolean' },
+          meetingSecurityBlockUserDomain: { type: 'boolean' },
+          meetingSecurityBlockUserDomainList: {
+            type: 'array',
+            items: { type: 'string' },
+          },
         },
       },
     });
