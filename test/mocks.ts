@@ -1,4 +1,12 @@
-import { ZoomGroup, ZoomRole, ZoomUser, ZoomUserSettings } from '../src/types';
+import {
+  ZoomGroup,
+  ZoomRole,
+  ZoomUser,
+  ZoomUserSettings,
+  ZoomUserSettingsMeetingAuthentication,
+  ZoomUserSettingsMeetingSecurity,
+  ZoomUserSettingsRecordingAuthentication,
+} from '../src/types';
 
 export function getMockUser(partial?: Partial<ZoomUser>): ZoomUser {
   return {
@@ -45,8 +53,18 @@ export function getMockRole(partial?: Partial<ZoomRole>): ZoomRole {
 }
 
 export function getMockUserSettings(
-  partial?: Partial<ZoomUserSettings>,
-): Partial<ZoomUserSettings> {
+  partial?: Partial<
+    ZoomUserSettings &
+      ZoomUserSettingsMeetingAuthentication &
+      ZoomUserSettingsRecordingAuthentication &
+      ZoomUserSettingsMeetingSecurity
+  >,
+): Partial<
+  ZoomUserSettings &
+    ZoomUserSettingsMeetingAuthentication &
+    ZoomUserSettingsRecordingAuthentication &
+    ZoomUserSettingsMeetingSecurity
+> {
   return {
     schedule_meeting: {
       host_video: false,
@@ -171,5 +189,40 @@ export function getMockUserSettings(
     audio_conferencing: {
       toll_free_and_fee_based_toll_call: { enable: false },
     },
+    meeting_authentication: false,
+    authentication_options: [
+      {
+        id: 'signIn_N0oChUdLTrCZLfk9JXp3Hw',
+        name: 'Sign in to Zoom',
+        type: 'enforce_login',
+        default_option: true,
+        visible: true,
+      },
+    ],
+    recording_authentication: false,
+    meeting_security: {
+      auto_security: true,
+      waiting_room: false,
+      waiting_room_settings: { participants_to_place_in_waiting_room: 0 },
+      meeting_password: true,
+      require_password_for_scheduled_meeting: false,
+      pmi_password: true,
+      password_for_pmi: '123123',
+      phone_password: true,
+      meeting_password_requirement: {
+        length: 0,
+        have_letter: false,
+        have_number: false,
+        have_special_character: false,
+        have_upper_and_lower_characters: false,
+        only_allow_numeric: false,
+        consecutive_characters_length: 0,
+        weak_enhance_detection: false,
+      },
+      embed_password_in_join_link: true,
+      approved_or_denied_countries_or_regions: { enable: false },
+      block_user_domain: false,
+    },
+    ...partial,
   };
 }

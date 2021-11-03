@@ -310,6 +310,7 @@ describe('#fetchUserSettings', () => {
             type: 'boolean',
           },
           meetingSecurityPhonePassword: { type: 'boolean' },
+          meetingSecurityPasswordForPmi: { type: 'string' },
           meetingSecurityPmiPassword: { type: 'boolean' },
           meetingSecurityRequirePasswordForScheduledMeeting: {
             type: 'boolean',
@@ -333,6 +334,9 @@ describe('#fetchUserSettings', () => {
           meetingSecurityBlockUserDomainList: {
             type: 'array',
             items: { type: 'string' },
+          },
+          meetingSecurityApprovedOrDeniedCountriesOrRegionsEnable: {
+            type: 'boolean',
           },
         },
       },

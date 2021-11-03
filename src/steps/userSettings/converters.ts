@@ -258,28 +258,29 @@ export function createUserSettingsEntity(
         meetingSecurityEncryptionType: data.meeting_security?.encryption_type,
         meetingSecurityMeetingPassword: data.meeting_security?.meeting_password,
         meetingSecurityMeetingPasswordRequirementLength:
-          data.meeting_security?.meeting_password_requirement.length,
+          data.meeting_security?.meeting_password_requirement?.length,
         meetingSecurityMeetingPasswordRequirementHaveLetter:
-          data.meeting_security?.meeting_password_requirement.have_letter,
+          data.meeting_security?.meeting_password_requirement?.have_letter,
         meetingSecurityMeetingPasswordRequirementHaveNumber:
-          data.meeting_security?.meeting_password_requirement.have_number,
+          data.meeting_security?.meeting_password_requirement?.have_number,
         meetingSecurityMeetingPasswordRequirementHaveSpecialCharacter:
           data.meeting_security?.meeting_password_requirement
-            .have_special_character,
+            ?.have_special_character,
         meetingSecurityMeetingPasswordRequirementOnlyAllowNumeric:
           data.meeting_security?.meeting_password_requirement
-            .only_allow_numeric,
+            ?.only_allow_numeric,
         meetingSecurityMeetingPasswordRequirementHaveUpperAndLowerCharacters:
           data.meeting_security?.meeting_password_requirement
-            .have_upper_and_lower_characters,
+            ?.have_upper_and_lower_characters,
         meetingSecurityMeetingPasswordRequirementConsecutiveCharactersLength:
           data.meeting_security?.meeting_password_requirement
-            .consecutive_characters_length,
+            ?.consecutive_characters_length,
         meetingSecurityMeetingPasswordRequirementWeakEnhanceDetection:
           data.meeting_security?.meeting_password_requirement
-            .weak_enhance_detection,
+            ?.weak_enhance_detection,
         meetingSecurityPhonePassword: data.meeting_security?.phone_password,
         meetingSecurityPmiPassword: data.meeting_security?.pmi_password,
+        meetingSecurityPasswordForPmi: data.meeting_security?.password_for_pmi,
         meetingSecurityRequirePasswordForScheduledMeeting:
           data.meeting_security?.require_password_for_scheduled_meeting,
         meetingSecurityWebinarPassword: data.meeting_security?.webinar_password,
@@ -288,18 +289,20 @@ export function createUserSettingsEntity(
         meetingSecurityWaitingRoom: data.meeting_security?.waiting_room,
         meetingSecurityWaitingRoomSettingsParticipantsToPlaceInWaitingRoom:
           data.meeting_security?.waiting_room_settings
-            .participants_to_place_in_waiting_room,
+            ?.participants_to_place_in_waiting_room,
         meetingSecurityWaitingRoomSettingsWhitelistedDomainsForWaitingRoom:
           data.meeting_security?.waiting_room_settings
-            .whitelisted_domains_for_waiting_room,
+            ?.whitelisted_domains_for_waiting_room,
         meetingSecurityWaitingRoomSettingsUsersWhoCanAdmitParticipantsFromWaitingRoom:
           data.meeting_security?.waiting_room_settings
-            .users_who_can_admit_participants_from_waiting_room,
+            ?.users_who_can_admit_participants_from_waiting_room,
         meetingSecurityAutoSecurity: data.meeting_security?.auto_security,
         meetingSecurityBlockUserDomain:
           data.meeting_security?.block_user_domain,
         meetingSecurityBlockUserDomainList:
           data.meeting_security?.block_user_domain_list,
+        meetingSecurityApprovedOrDeniedCountriesOrRegionsEnable:
+          data.meeting_security?.approved_or_denied_countries_or_regions.enable,
       },
     },
   });
