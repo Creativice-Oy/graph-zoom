@@ -64,6 +64,11 @@ export function createUserSettingsEntity(user: Entity, data: ZoomUserSettings) {
           data.schedule_meeting?.meeting_password_requirement
             ?.weak_enhance_detection,
         scheduleMeetingPersonalMeeting: data.schedule_meeting?.personal_meeting,
+        scheduleMeetingRequirePasswordForSchedulingNewMeetings:
+          data.schedule_meeting?.require_password_for_scheduling_new_meetings,
+        scheduleMeetingMuteUponEntry: data.schedule_meeting?.mute_upon_entry,
+
+        inMeetingAttendeeOnHold: data.in_meeting?.attendee_on_hold,
         inMeetingE2eEncryption: data.in_meeting?.e2e_encryption,
         inMeetingChat: data.in_meeting?.chat,
         inMeetingAllowParticipantsChatWith:
@@ -116,6 +121,10 @@ export function createUserSettingsEntity(user: Entity, data: ZoomUserSettings) {
         inMeetingFileTransfer: data.in_meeting?.file_transfer,
         inMeetingRequestPermissionToUnmute:
           data.in_meeting?.request_permission_to_unmute,
+        inMeetingAllowParticipantsToRename:
+          data.in_meeting?.allow_participants_to_rename,
+        inMeetingRequestPermissionToUnmuteParticipants:
+          data.in_meeting?.request_permission_to_unmute_participants,
         inMeetingShowAJoinFromYourBrowserLink:
           data.in_meeting?.show_a_join_from_your_browser_link,
         inMeetingJoinFromMobile: data.in_meeting?.join_from_mobile,
@@ -141,6 +150,7 @@ export function createUserSettingsEntity(user: Entity, data: ZoomUserSettings) {
           data.in_meeting?.webinar_chat?.allow_users_save_chats,
         inMeetingWebinarChatAllowAutoSaveLocalChatFile:
           data.in_meeting?.webinar_chat?.allow_auto_save_local_chat_file,
+
         emailNotificationCloudRecordingAvailableReminder:
           data.email_notification?.cloud_recording_available_reminder,
         emailNotificationJbhReminder: data.email_notification?.jbh_reminder,
@@ -150,12 +160,13 @@ export function createUserSettingsEntity(user: Entity, data: ZoomUserSettings) {
           data.email_notification?.alternative_host_reminder,
         emailNotificationScheduleForReminder:
           data.email_notification?.schedule_for_reminder,
+
         recordingLocalRecording: data.recording?.local_recording,
         recordingCloudRecording: data.recording?.cloud_recording,
         recordingRecordSpeakerView: data.recording?.record_speaker_view,
         recordingRecordGalleryView: data.recording?.record_gallery_view,
         recordingRecordAudioFile: data.recording?.record_audio_file,
-        recordingSaveChatTest: data.recording?.save_chat_text,
+        recordingSaveChatText: data.recording?.save_chat_text,
         recordingShowTimestamp: data.recording?.show_timestamp,
         recordingRecordingAudioTranscript:
           data.recording?.recording_audio_transcript,
@@ -164,6 +175,10 @@ export function createUserSettingsEntity(user: Entity, data: ZoomUserSettings) {
           data.recording?.host_pause_stop_recording,
         recordingAutoDeleteCmr: data.recording?.auto_delete_cmr,
         recordingAutoDeleteCmrData: data.recording?.auto_delete_cmr_data,
+        recordingHostDeleteCloudRecording:
+          data.recording?.host_delete_cloud_recording,
+        recordingRequirePasswordForSharedCloudRecordings:
+          data.recording?.required_password_for_shared_cloud_recordings,
         recordingRecordingDisclaimer: data.recording?.recording_disclaimer,
         recordingAskParticipantsToConsentDisclaimer:
           data.recording?.ask_participants_to_consent_disclaimer,
@@ -184,6 +199,7 @@ export function createUserSettingsEntity(user: Entity, data: ZoomUserSettings) {
           data.recording?.ip_address_access_control?.enable,
         recordingIpAddressAccessControlIpAddressesOrRanges:
           data.recording?.ip_address_access_control?.ip_addresses_or_ranges,
+
         telephonyThirdPartyAudio: data.telephony?.third_party_audio,
         telephonyAudioConferenceInfo: data.telephony?.audio_conference_info,
         telephonyShowInternationalNumbersLink:
@@ -192,6 +208,7 @@ export function createUserSettingsEntity(user: Entity, data: ZoomUserSettings) {
           data.telephony?.telephony_regions?.allowed_values,
         telephonyTelephonyRegionsSelectionValue:
           data.telephony?.telephony_regions?.selection_value,
+
         featureMeetingCapacity: data.feature?.meeting_capacity,
         featureLargeMeeting: data.feature?.large_meeting,
         featureLargeMeetingCapacity: data.feature?.large_meeting_capacity,
@@ -203,14 +220,17 @@ export function createUserSettingsEntity(user: Entity, data: ZoomUserSettings) {
         featureInMeeting: data.feature?.in_meeting,
         featureZoomPhone: data.feature?.zoom_phone,
         featureConcurrentMeeting: data.feature?.concurrent_meeting,
+
         tspCallOut: data.tsp?.call_out,
         tspCallOutCountries: data.tsp?.call_out_countries,
         tspShowInternationalNumbersLink:
           data.tsp?.show_international_numbers_link,
+
         profileRecordingStorageLocationAllowedValues:
           data.profile?.recording_storage_location?.allowed_values,
         profileRecordingStorageLocationValue:
           data.profile?.recording_storage_location?.value,
+
         audioConferencingTollFreeAndFeeBasedTollCallEnable:
           data.audio_conferencing?.toll_free_and_fee_based_toll_call?.enable,
         audioConferencingTollFreeAndFeeBasedTollCallAllowWebinarAttendeesDial:
