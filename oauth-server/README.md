@@ -7,9 +7,9 @@ instructions how to create one, see Zoom's
 
 ## Steps to get an OAuth token
 
-1. Supply your `CLIENT_ID`, `CLIENT_SECRET` and `REDIRECT_URI` from your OAuth
-   app's credentials to the `.env`. Make sure `http://localhost:5000` is an
-   allowed redirect in your app. See [.env.example](./env.example) as reference
+1. Supply your `CLIENT_ID`, and `CLIENT_SECRET` from your OAuth app's
+   credentials to the `.env`. Make sure `http://localhost:5000` is an allowed
+   redirect in your app. See [.env.example](./env.example) as reference
 
 2. Run `$ yarn start` and go to `http://localhost:5000` on your browser
 

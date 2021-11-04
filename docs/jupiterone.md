@@ -5,17 +5,14 @@
 TODO: Iterate the benefits of ingesting data from the provider into JupiterOne.
 Consider the following examples:
 
-- Visualize Zoom services, teams, and users in the JupiterOne graph.
+- Visualize Zoom user, user settings, roles, and groups in the JupiterOne graph.
 - Map Zoom users to employees in your JupiterOne account.
-- Monitor changes to Zoom users using JupiterOne alerts.
+- Monitor changes to ingested Zoom resources using JupiterOne alerts.
 
 ## How it Works
 
-TODO: Iterate significant activities the integration enables. Consider the
-following examples:
-
-- JupiterOne periodically fetches services, teams, and users from Zoom to update
-  the graph.
+- JupiterOne periodically fetches user, user settings, roles, and groups from
+  Zoom to update the graph.
 - Write JupiterOne queries to review and monitor updates to the graph, or
   leverage existing queries.
 - Configure alerts to take action when JupiterOne graph changes, or leverage
@@ -23,13 +20,8 @@ following examples:
 
 ## Requirements
 
-TODO: Iterate requirements for setting up the integration. Consider the
-following examples:
-
-- Zoom supports the OAuth2 Client Credential flow. You must have a Administrator
-  user account.
-- JupiterOne requires a REST API key. You need permission to create a user in
-  Zoom that will be used to obtain the API key.
+- Zoom supports the OAuth2 Client Credential flow. A Zoom pro account is
+  optional but is highly recommended.
 - You must have permission in JupiterOne to install new integrations.
 
 ## Support
@@ -41,15 +33,27 @@ If you need help with this integration, please contact
 
 ### In Zoom
 
-TODO: List specific actions that must be taken in the provider. Remove this
-section when there are no actions to take in the provider.
+1. Go to [Create App](https://marketplace.zoom.us/develop/create) page on Zoom
+   Marketplace and click 'Create' under the OAuth app type.
 
-1. [Generate a REST API key](https://example.com/docs/generating-api-keys)
+2. Enter an app name and choose the 'Account-level app' option. The publish app
+   option will depend on your needs.
+
+3. Take note of your `Client ID` and your `Client secret` and supply it to the
+   [oauth-server's .env](../oauth-server/README.md).
+
+4. Enter 'http://localhost:5000/redirect' to the Redirect URL for OAuth.
+
+5. Add 'http://localhost:5000/redirect' to the OAuth allow list.
+
+6. Supply the required information.
+
+7. On scopes, add `group:read:admin`, `role:read:admin`, and `user:read:admin`.
+
+8. The app is now ready. Proceed to authentication to generate your
+   `ZOOM_ACCESS_TOKEN`.
 
 ### In JupiterOne
-
-TODO: List specific actions that must be taken in JupiterOne. Many of the
-following steps will be reusable; take care to be sure they remain accurate.
 
 1. From the configuration **Gear Icon**, select **Integrations**.
 2. Scroll to the **Zoom** integration tile and click it.
@@ -68,10 +72,6 @@ following steps will be reusable; take care to be sure they remain accurate.
 4. Click **Create Configuration** once all values are provided.
 
 # How to Uninstall
-
-TODO: List specific actions that must be taken to uninstall the integration.
-Many of the following steps will be reusable; take care to be sure they remain
-accurate.
 
 1. From the configuration **Gear Icon**, select **Integrations**.
 2. Scroll to the **Zoom** integration tile and click it.

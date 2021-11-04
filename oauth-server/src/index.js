@@ -16,7 +16,7 @@ router.get('/', ({ response }) => {
 
 router.get('/install', ({ response }) => {
   response.redirect(
-    `${ZOOM_OAUTH_INSTALL_URI}authorize?response_type=code&client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}`,
+    `${ZOOM_OAUTH_INSTALL_URI}authorize?response_type=code&client_id=${process.env.CLIENT_ID}&redirect_uri=http://localhost:5000/redirect`,
   );
 });
 
@@ -28,7 +28,7 @@ router.get('/redirect', async ({ request, response }) => {
       `${process.env.CLIENT_ID}:${process.env.CLIENT_SECRET}`,
     ).toString('base64');
 
-    const body = `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.REDIRECT_URI}`;
+    const body = `code=${code}&grant_type=authorization_code&redirect_uri=http://localhost:5000/redirect`;
 
     const res = await fetch(ZOOM_TOKEN_REQUEST_URI, {
       method: 'post',
