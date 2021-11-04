@@ -58,6 +58,7 @@ describe('#fetchGroups', () => {
           id: { type: 'string' },
           name: { type: 'string' },
           totalMembers: { type: 'number' },
+          directoryPrivacy: { type: 'number' },
         },
       },
     });
@@ -152,6 +153,7 @@ describe('#buildUserAndGroupsRelationship', () => {
           id: { type: 'string' },
           name: { type: 'string' },
           totalMembers: { type: 'number' },
+          directoryPrivacy: { type: 'number' },
         },
       },
     });
@@ -241,6 +243,7 @@ describe('#buildAccountAndGroupsRelationship', () => {
           id: { type: 'string' },
           name: { type: 'string' },
           totalMembers: { type: 'number' },
+          directoryPrivacy: { type: 'number' },
         },
       },
     });

@@ -16,6 +16,7 @@ export function createGroupEntity(data: ZoomGroup) {
         _key: getGroupKey(data.id),
         displayName: data.name,
         totalMembers: data.total_members,
+        directoryPrivacy: data.directory_privacy,
       },
     },
   });

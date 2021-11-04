@@ -38,6 +38,7 @@ export function getMockGroup(partial?: Partial<ZoomGroup>): ZoomGroup {
     id: 'sample-id',
     name: 'group-name',
     total_members: 420,
+    directory_privacy: 2,
     ...partial,
   };
 }
@@ -53,18 +54,8 @@ export function getMockRole(partial?: Partial<ZoomRole>): ZoomRole {
 }
 
 export function getMockUserSettings(
-  partial?: Partial<
-    ZoomUserSettings &
-      ZoomUserSettingsMeetingAuthentication &
-      ZoomUserSettingsRecordingAuthentication &
-      ZoomUserSettingsMeetingSecurity
-  >,
-): Partial<
-  ZoomUserSettings &
-    ZoomUserSettingsMeetingAuthentication &
-    ZoomUserSettingsRecordingAuthentication &
-    ZoomUserSettingsMeetingSecurity
-> {
+  partial?: Partial<ZoomUserSettings>,
+): Partial<ZoomUserSettings> {
   return {
     schedule_meeting: {
       host_video: false,
@@ -189,6 +180,14 @@ export function getMockUserSettings(
     audio_conferencing: {
       toll_free_and_fee_based_toll_call: { enable: false },
     },
+    ...partial,
+  };
+}
+
+export function getMockUserSettingsMeetingAuthentication(
+  partial?: Partial<ZoomUserSettingsMeetingAuthentication>,
+): Partial<ZoomUserSettingsMeetingAuthentication> {
+  return {
     meeting_authentication: false,
     authentication_options: [
       {
@@ -199,7 +198,32 @@ export function getMockUserSettings(
         visible: true,
       },
     ],
+    ...partial,
+  };
+}
+
+export function getMockUserSettingsRecordingAuthentication(
+  partial?: Partial<ZoomUserSettingsRecordingAuthentication>,
+): Partial<ZoomUserSettingsRecordingAuthentication> {
+  return {
     recording_authentication: false,
+    authentication_options: [
+      {
+        id: 'signIn_N0oChUdLTrCZLfk9JXp3Hw',
+        name: 'Sign in to Zoom',
+        type: 'enforce_login',
+        default_option: true,
+        visible: true,
+      },
+    ],
+    ...partial,
+  };
+}
+
+export function getMockUserSettingsMeetingSecurity(
+  partial?: Partial<ZoomUserSettingsMeetingSecurity>,
+): Partial<ZoomUserSettingsMeetingSecurity> {
+  return {
     meeting_security: {
       auto_security: true,
       waiting_room: false,

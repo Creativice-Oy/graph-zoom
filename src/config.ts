@@ -11,6 +11,9 @@ export const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
     type: 'string',
     mask: true,
   },
+  scopes: {
+    type: 'string',
+  },
 };
 
 export interface IntegrationConfig extends IntegrationInstanceConfig {
@@ -18,6 +21,7 @@ export interface IntegrationConfig extends IntegrationInstanceConfig {
    * The OAuth token used to authenticate requests.
    */
   zoomAccessToken: string;
+  scopes: string;
 }
 
 export async function validateInvocation(
@@ -25,9 +29,9 @@ export async function validateInvocation(
 ) {
   const { config } = context.instance;
 
-  if (!config.zoomAccessToken) {
+  if (!config.zoomAccessToken || !config.scopes) {
     throw new IntegrationValidationError(
-      'Config requires zoom access token. Please generate from OAuth server.',
+      'Config requires zoom access token and scopes field. Please generate from OAuth server.',
     );
   }
 

@@ -10,6 +10,7 @@ Object {
     Object {
       "name": "default",
       "rawData": Object {
+        "directory_privacy": 2,
         "id": "sample-id",
         "name": "group-name",
         "total_members": 420,
@@ -18,6 +19,7 @@ Object {
   ],
   "_type": "zoom_group",
   "createdOn": undefined,
+  "directoryPrivacy": 2,
   "displayName": "group-name",
   "id": "sample-id",
   "name": "group-name",

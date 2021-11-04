@@ -22,40 +22,35 @@ export async function fetchUserSettings({
         userEntity.id as string,
       );
 
-      const userSettingsMeetingAuthentication = await apiClient.getUserSettingsMeetingAuthentication(
+      const meetingAuthenticationSettings = await apiClient.getUserSettingsMeetingAuthentication(
         userEntity.id as string,
       );
 
-      const userSettingsRecordingAuthentication = await apiClient.getUserSettingsRecordingAuthentication(
+      const recordingAuthenticationSettings = await apiClient.getUserSettingsRecordingAuthentication(
         userEntity.id as string,
       );
 
-      const userSettingsMeetingSecurity = await apiClient.getUserSettingsMeetingSecurity(
+      const meetingSecuritySettings = await apiClient.getUserSettingsMeetingSecurity(
         userEntity.id as string,
       );
 
-      if (
-        userSettings ||
-        userSettingsMeetingAuthentication ||
-        userSettingsRecordingAuthentication ||
-        userSettingsMeetingSecurity
-      ) {
-        const userSettingsEntity = createUserSettingsEntity(userEntity, {
-          ...userSettings,
-          ...userSettingsMeetingAuthentication,
-          ...userSettingsRecordingAuthentication,
-          ...userSettingsMeetingSecurity,
-        });
-        await jobState.addEntity(userSettingsEntity);
+      const userSettingsEntity = createUserSettingsEntity({
+        user: userEntity,
+        userSettings,
+        meetingAuthenticationSettings,
+        recordingAuthenticationSettings,
+        meetingSecuritySettings,
+      });
 
-        await jobState.addRelationship(
-          createDirectRelationship({
-            _class: RelationshipClass.HAS,
-            from: userEntity,
-            to: userSettingsEntity,
-          }),
-        );
-      }
+      await jobState.addEntity(userSettingsEntity);
+
+      await jobState.addRelationship(
+        createDirectRelationship({
+          _class: RelationshipClass.HAS,
+          from: userEntity,
+          to: userSettingsEntity,
+        }),
+      );
     },
   );
 }

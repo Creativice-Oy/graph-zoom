@@ -26,6 +26,7 @@ export type ZoomGroup = {
   id: string;
   name: string;
   total_members: number;
+  directory_privacy: number;
 };
 
 export type ZoomUserSettings = {

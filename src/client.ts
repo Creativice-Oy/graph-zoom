@@ -190,9 +190,7 @@ export class APIClient {
     const userSettingsApiRoute = this.withBaseUri(`users/${userId}/settings`);
 
     const response = await this.request(userSettingsApiRoute, 'GET');
-    const body: ZoomUserSettings = await response.json();
-
-    return body;
+    return response.json();
   }
 
   // OAuth scope: 'user:read:admin'
@@ -207,9 +205,8 @@ export class APIClient {
       userSettingsMeetingAuthenticationApiRoute,
       'GET',
     );
-    const body: ZoomUserSettingsMeetingAuthentication = await response.json();
 
-    return body;
+    return response.json();
   }
 
   // OAuth scope: 'user:read:admin'
@@ -224,9 +221,7 @@ export class APIClient {
       userSettingsRecordingAuthenticationApiRoute,
       'GET',
     );
-    const body: ZoomUserSettingsRecordingAuthentication = await response.json();
-
-    return body;
+    return response.json();
   }
 
   // OAuth scope: 'user:read:admin'
@@ -241,9 +236,7 @@ export class APIClient {
       userSettingsMeetingSecurityApiRoute,
       'GET',
     );
-    const body: ZoomUserSettingsMeetingSecurity = await response.json();
-
-    return body;
+    return response.json();
   }
 
   public async verifyAuthentication(): Promise<void> {
